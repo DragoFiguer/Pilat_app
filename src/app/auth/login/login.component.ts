@@ -36,7 +36,17 @@ export class LoginComponent implements OnInit {
   login() { //Metodo Login valida la autenticidad
     if (this.loginForm.valid) {
       //console.log("Llamr al servicio de login");
-      this.loginService.login(this.loginForm.value as LoginRequest);
+      this.loginService.login(this.loginForm.value as LoginRequest).subscribe({
+        next: (userData) => {
+          console.log(userData);
+        },
+        error: (errorData) => {
+          console.error(errorData);
+        },
+        complete: () => {
+          console.info("Login completo");
+        }
+      })
       this.router.navigateByUrl('/inicio');
       this.loginForm.reset();
     } else {
